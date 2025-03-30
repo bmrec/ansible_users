@@ -1,0 +1,25 @@
+---
+- name: Get ssh keys
+  ansible.builtin.uri:
+    url: "https://github.com/{{ user_db[user].github }}.keys"
+    return_content: yes
+  register: github_keys
+  when: user_db[user].github is defined
+  tags: create
+
+- name: Create user
+  ansible.builtin.user:
+    name: "{{ user }}"
+    shell: "{{ user_db[user].shell | default('/bin/bash') }}"
+    groups: "{{ user_db[user].groups | default([]) | join(',') }}"
+    password: "{{ user_passwords[user] | default(omit) }}"
+    append: true
+  tags: create
+
+- name: Add ssh keys
+  ansible.builtin.authorized_key:
+    user: "{{ user }}"
+    key: "{{ github_keys.content }}"
+    state: present
+  when: user_db[user].github is defined
+  tags: create
