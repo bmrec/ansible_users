@@ -1,0 +1,24 @@
+---
+- name: Create users
+  include_tasks: create_user.yaml
+  loop: "{{ create_users }}"
+  loop_control:
+    loop_var: user
+    label: "{{ user }}"
+  when: user in user_db
+  tags: create
+
+- name: Disable user
+  include_tasks: disable_user.yaml
+  loop: "{{ disable_users }}"
+  loop_control:
+    loop_var: user
+  tags: disable
+
+- name: Install powershell
+  include_tasks: install_powershell.yaml
+  tags: expire, dependence
+
+- name: Expire users
+  include_tasks: expire_users.yaml
+  tags: expire

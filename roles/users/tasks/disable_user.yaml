@@ -1,0 +1,7 @@
+---
+- name: Disable user account
+  ansible.builtin.user:
+    name: "{{ user }}"
+    shell: /usr/sbin/nologin
+    password_lock: yes
+  tags: disable

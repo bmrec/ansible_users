@@ -1,0 +1,24 @@
+---
+- name: Generate expiration dates file
+  ansible.builtin.template:
+    src: user_expiry_dates.j2
+    dest: /etc/user_expiry_dates
+    mode: 600
+    owner: root
+    group: root
+  tags: expire
+
+- name: Deploy expire user script
+  ansible.builtin.copy:
+    src: expire_users.ps1
+    dest: /usr/local/bin/expire_user.ps1
+    mode: 700
+  tags: expire
+
+- name: Schedule daily run the script
+  ansible.builtin.cron:
+    name: "Lock expired users"
+    minute: "0"
+    hour: "3"
+    job: "/usr/local/bin/expire_user.ps1"
+  tags: expire
