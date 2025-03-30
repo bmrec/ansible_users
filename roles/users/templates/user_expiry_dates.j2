@@ -1,0 +1,5 @@
+# Ansible managed
+#Users' expiration dates
+{% for username, params in user_db.items()  if params.expiration_date is defined %}
+{{ username }}:{{ params.expiration_date }}
+{% endfor %}

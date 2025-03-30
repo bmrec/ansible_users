@@ -1,0 +1,44 @@
+---
+- name: Install dependencies
+  ansible.builtin.apt:
+     name:
+       - software-properties-common
+       - apt-transport-https
+     state: present
+     update_cache: yes
+  when: ansible_os_family == 'Debian'
+  tags: expire, dependence
+
+
+- name: Import Microsoft GPG-key
+  ansible.builtin.apt_key:
+     url: https://packages.microsoft.com/keys/microsoft.asc
+     state: present
+  when: ansible_os_family == 'Debian'
+  tags: expire, dependence
+
+
+- name: Add PowerShell repo
+  ansible.builtin.apt_repository:
+     repo: "deb [arch=amd64] https://packages.microsoft.com/ubuntu/{{ ansible_distribution_version }}/prod \
+            {{ ansible_distribution_release }} main"
+     state: present
+     filename: microsoft-prod
+  when: ansible_os_family == 'Debian'
+  tags: expire, dependence
+
+
+- name: Update cache
+  ansible.builtin.apt:
+     update_cache: yes
+  when: ansible_os_family == 'Debian'
+  tags: expire, dependence
+
+
+- name: Install PowerShell
+  ansible.builtin.apt:
+     name: powershell
+     state: present
+     update_cache: yes
+  when: ansible_os_family == 'Debian'
+  tags: expire, dependence
