@@ -1,0 +1,20 @@
+---
+all:
+    children:
+        web_servers:
+            hosts:
+                bdv-work:
+                    ansible_host: 10.92.33.20
+        dev_vms:
+            hosts:
+                dev1:
+                    ansible_host: 194.87.191.100
+                    ansible_port: 2002
+                    ansible_user: bdv
+                    ansible_ssh_private_key_file: ~/.ssh/id_rsa
+                dev2:
+
+ungrouped:
+    hosts:
+        vm-gw1:
+        mon1:
