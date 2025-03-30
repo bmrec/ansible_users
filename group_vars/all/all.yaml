@@ -1,0 +1,30 @@
+---
+user_db:
+  "user1":
+      github: bmrec
+      groups:
+        - root
+      expiration_date: "2025-04-22"
+  "user2":
+      shell: /bin/bash
+      github: josegonzalez
+      groups:
+        - root
+      expiration_date: "2025-03-21"
+  "a.ivanov":
+      shell: /bin/bash
+      groups:
+        - docker
+      expiration_date: "2025-04-21"
+  "l.petrov":
+      shell: /bin/sh
+      groups:
+        - ftp
+
+create_users:
+  - user1
+  - user2
+
+disable_users:
+  - l.petrov
+  - i.bananov
